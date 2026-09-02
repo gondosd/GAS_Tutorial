@@ -73,3 +73,27 @@ Plugins/**/Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+FrontendUI/Binaries/
+FrontendUI/Intermediate/
+FrontendUI/Saved/
+FrontendUI/.idea/
+FrontendUI/Build/
+FrontendUI/FrontendUI.uproject.DotSettings.user
+
+ThePharmadillo/Binaries/
+ThePharmadillo/Intermediate/
+ThePharmadillo/Saved/
+ThePharmadillo/.idea/
+ThePharmadillo/Build/
+ThePharmadillo/ThePharmadillo.uproject.DotSettings.user
+ThePharmadillo/DerivedDataCache/VT/TEXTURE_7C16439390E24F1F9468894FB4D4BC55_VTCHUNK02D4C3BCAD7DFA48AB32B8281FB06B8B83DB6275
+ThePharmadillo/DerivedDataCache/
+ThePharmadillo/ThePharmadillo.sln.DotSettings.user
+ThePharmadillo/Plugins/SaveExte3db1918bf5fdV6/Intermediate/
+ThePharmadillo/Plugins/SaveExte3db1918bf5fdV6/Binaries/
+GAS_Tutorial/.idea/.idea.GAS_Tutorial/.idea/.gitignore
+GAS_Tutorial/.idea/
+GAS_Tutorial/Binaries/
+GAS_Tutorial/DerivedDataCache/
+GAS_Tutorial/Intermediate/
+GAS_Tutorial/Saved/
