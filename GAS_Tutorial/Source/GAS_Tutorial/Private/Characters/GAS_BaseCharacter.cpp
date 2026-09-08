@@ -10,3 +10,8 @@ AGAS_BaseCharacter::AGAS_BaseCharacter()
 	//Tick and refresh bone transforms whether rendered or not - for bone uptades on a dedicated server
 	GetMesh()->VisibilityBasedAnimTickOption = EVisibilityBasedAnimTickOption::AlwaysTickPoseAndRefreshBones;
 }
+
+UAbilitySystemComponent* AGAS_BaseCharacter::GetAbilitySystemComponent() const
+{
+	return nullptr;
+}

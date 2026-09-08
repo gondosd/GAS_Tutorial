@@ -17,12 +17,14 @@ class GAS_TUTORIAL_API AGAS_PlayerCharacter : public AGAS_BaseCharacter
 public:
 	AGAS_PlayerCharacter();
 
-	
-	private:
-	
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	virtual void PossessedBy(AController* NewController) override;
+	virtual void OnRep_PlayerState() override;
+
+private:
 	UPROPERTY(VisibleAnywhere, Category = "Camera")
 	TObjectPtr<USpringArmComponent> CameraBoom;
-	
+
 	UPROPERTY(VisibleAnywhere, Category = "Camera")
 	TObjectPtr<UCameraComponent> FollowCamera;
 };
