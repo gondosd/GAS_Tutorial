@@ -9,7 +9,7 @@
 class UCameraComponent;
 class USpringArmComponent;
 
-UCLASS()
+UCLASS(Abstract)
 class GAS_TUTORIAL_API AGAS_PlayerCharacter : public AGAS_BaseCharacter
 {
 	GENERATED_BODY()
