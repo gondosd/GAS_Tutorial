@@ -33,6 +33,8 @@ void AGAS_PlayerController::SetupInputComponent()
 	EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ThisClass::Look);
 	
 	EnhancedInputComponent->BindAction(PrimaryAction, ETriggerEvent::Started, this, &ThisClass::Primary);
+	EnhancedInputComponent->BindAction(SecondaryAction, ETriggerEvent::Started, this, &ThisClass::Secondary);
+	EnhancedInputComponent->BindAction(TertiaryAction, ETriggerEvent::Started, this, &ThisClass::Tertiary);
 }
 
 void AGAS_PlayerController::Jump()
@@ -78,6 +80,16 @@ void AGAS_PlayerController::Look(const FInputActionValue& Value)
 void AGAS_PlayerController::Primary()
 {
 	ActivateAbility(GASTags::GASAbilities::Primary);
+}
+
+void AGAS_PlayerController::Secondary()
+{
+	ActivateAbility(GASTags::GASAbilities::Secondary);
+}
+
+void AGAS_PlayerController::Tertiary()
+{
+	ActivateAbility(GASTags::GASAbilities::Tertiary);
 }
 
 void AGAS_PlayerController::ActivateAbility(const FGameplayTag& AbilityTag) const
