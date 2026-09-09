@@ -7,6 +7,7 @@
 #include "GameFramework/Character.h"
 #include "GAS_BaseCharacter.generated.h"
 
+class UGameplayAbility;
 
 UCLASS(Abstract)
 class GAS_TUTORIAL_API AGAS_BaseCharacter : public ACharacter, public IAbilitySystemInterface
@@ -17,4 +18,11 @@ public:
 	AGAS_BaseCharacter();
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+
+protected:
+void GiveStartupAbilities();
+
+private:
+	UPROPERTY(EditDefaultsOnly, Category = "GAS|Abilities")
+	TArray<TSubclassOf<UGameplayAbility>> Abilities;
 };

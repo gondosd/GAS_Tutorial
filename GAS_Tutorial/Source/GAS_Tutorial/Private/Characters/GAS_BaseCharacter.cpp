@@ -3,6 +3,8 @@
 
 #include "GAS_Tutorial/Public/Characters/GAS_BaseCharacter.h"
 
+#include "AbilitySystemComponent.h"
+
 AGAS_BaseCharacter::AGAS_BaseCharacter()
 {
 	PrimaryActorTick.bCanEverTick = false;
@@ -14,4 +16,15 @@ AGAS_BaseCharacter::AGAS_BaseCharacter()
 UAbilitySystemComponent* AGAS_BaseCharacter::GetAbilitySystemComponent() const
 {
 	return nullptr;
+}
+
+void AGAS_BaseCharacter::GiveStartupAbilities()
+{
+	if (!GetAbilitySystemComponent()) return;
+	
+	for (const TSubclassOf<UGameplayAbility>& Ability : Abilities)
+	{
+		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(Ability);
+		GetAbilitySystemComponent()->GiveAbility(AbilitySpec);
+	}
 }

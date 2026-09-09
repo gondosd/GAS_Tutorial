@@ -53,10 +53,11 @@ void AGAS_PlayerCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 	
-	if (!GetAbilitySystemComponent()) return;
+	if (!GetAbilitySystemComponent() || !HasAuthority()) return;
 	
 	//this runs on server
 	GetAbilitySystemComponent()->InitAbilityActorInfo(GetPlayerState(), this);
+	GiveStartupAbilities();
 }
 
 void AGAS_PlayerCharacter::OnRep_PlayerState()
