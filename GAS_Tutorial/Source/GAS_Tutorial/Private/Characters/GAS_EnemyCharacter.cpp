@@ -2,15 +2,14 @@
 
 
 #include "Characters/GAS_EnemyCharacter.h"
-
-#include "AbilitySystemComponent.h"
+#include "AbilitySystem/GAS_AbilitySystemComponent.h"
 
 
 AGAS_EnemyCharacter::AGAS_EnemyCharacter()
 {
 	PrimaryActorTick.bCanEverTick = false;
 	
-	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystemComponent");
+	AbilitySystemComponent = CreateDefaultSubobject<UGAS_AbilitySystemComponent>("AbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 }
