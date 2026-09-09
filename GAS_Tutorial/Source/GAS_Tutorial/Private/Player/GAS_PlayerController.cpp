@@ -3,9 +3,12 @@
 
 #include "GAS_Tutorial/Public/Player/GAS_PlayerController.h"
 
+#include "AbilitySystemBlueprintLibrary.h"
+#include "AbilitySystemComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "GameFramework/Character.h"
+#include "GameplayTags/GAS_Tags.h"
 
 class UEnhancedInputLocalPlayerSubsystem;
 
@@ -74,5 +77,13 @@ void AGAS_PlayerController::Look(const FInputActionValue& Value)
 
 void AGAS_PlayerController::Primary()
 {
-	UE_LOG(LogTemp, Warning, TEXT("PrimaryFired"));
+	ActivateAbility(GASTags::GASAbilities::Primary);
+}
+
+void AGAS_PlayerController::ActivateAbility(const FGameplayTag& AbilityTag) const
+{
+	UAbilitySystemComponent* ASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetPawn());
+	if (!ASC) return;
+	
+	ASC->TryActivateAbilitiesByTag(AbilityTag.GetSingleTagContainer());
 }
