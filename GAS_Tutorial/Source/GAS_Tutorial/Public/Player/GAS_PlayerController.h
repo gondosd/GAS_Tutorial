@@ -42,6 +42,7 @@ private:
 	
 	UPROPERTY(EditDefaultsOnly, Category = "GAS|Input|Abilities")
 	TObjectPtr<UInputAction> TertiaryAction;
+	
 	void Jump();
 	void StopJumping();
 	void Move(const FInputActionValue& Value);
