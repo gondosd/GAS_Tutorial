@@ -21,6 +21,7 @@ void UGAS_AbilitySystemComponent::OnRep_ActivateAbilities()
 	FScopedAbilityListLock ActiveScopeLock(*this); // it prevents us to access an ability when it has been removed
 	for (const FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
 	{
+		//GiveAbilityAndActivateOnce(AbilitySpec); <- this would do the same, but once the ability is done, it will be removed
 		HandleAutoActivatedAbility(AbilitySpec);
 	}
 }
