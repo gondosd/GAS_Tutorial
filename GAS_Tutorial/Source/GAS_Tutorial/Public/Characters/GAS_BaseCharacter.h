@@ -7,6 +7,7 @@
 #include "GameFramework/Character.h"
 #include "GAS_BaseCharacter.generated.h"
 
+class UGameplayEffect;
 class UGameplayAbility;
 
 UCLASS(Abstract)
@@ -20,9 +21,14 @@ public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 protected:
-void GiveStartupAbilities();
+	void GiveStartupAbilities();
 
+	void InitializeAttributes();
+	
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "GAS|Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> Abilities;
+
+	UPROPERTY(EditDefaultsOnly, Category = "GAS|Effects")
+	TSubclassOf<UGameplayEffect> InitializeAttributeEffect;
 };

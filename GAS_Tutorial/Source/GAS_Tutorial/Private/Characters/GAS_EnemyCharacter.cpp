@@ -33,4 +33,5 @@ void AGAS_EnemyCharacter::BeginPlay()
 	if (!HasAuthority()) return; //Only on server we give startup abilities
 
 	GiveStartupAbilities();
+	InitializeAttributes();
 }

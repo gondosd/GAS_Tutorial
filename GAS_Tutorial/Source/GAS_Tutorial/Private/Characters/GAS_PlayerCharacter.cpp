@@ -58,6 +58,7 @@ void AGAS_PlayerCharacter::PossessedBy(AController* NewController)
 	//this runs on server
 	GetAbilitySystemComponent()->InitAbilityActorInfo(GetPlayerState(), this);
 	GiveStartupAbilities();
+	InitializeAttributes();
 }
 
 void AGAS_PlayerCharacter::OnRep_PlayerState()
