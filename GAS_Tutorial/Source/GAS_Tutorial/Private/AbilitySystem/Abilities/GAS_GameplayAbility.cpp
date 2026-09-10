@@ -8,7 +8,7 @@ void UGAS_GameplayAbility::ActivateAbility(const FGameplayAbilitySpecHandle Hand
 {
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 	
-	if (bDrawDebugs)
+	if (bDrawDebugs && GEngine)
 		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, FString::Printf(TEXT("%s Ability is Activated"), *GetClass()->GetName()));
 }
 
@@ -17,6 +17,6 @@ void UGAS_GameplayAbility::EndAbility(const FGameplayAbilitySpecHandle Handle, c
 {
 	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
 	
-	if (bDrawDebugs)
+	if (bDrawDebugs && GEngine)
 		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, FString::Printf(TEXT("%s Ability is Ended"), *GetClass()->GetName()));
 }
