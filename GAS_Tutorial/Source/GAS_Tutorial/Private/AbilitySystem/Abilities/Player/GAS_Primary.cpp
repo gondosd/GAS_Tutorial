@@ -3,7 +3,9 @@
 
 #include "AbilitySystem/Abilities/Player/GAS_Primary.h"
 
+#include "AbilitySystemBlueprintLibrary.h"
 #include "Engine/OverlapResult.h"
+#include "GameplayTags/GAS_Tags.h"
 
 void UGAS_Primary::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
                                    const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
@@ -11,7 +13,7 @@ void UGAS_Primary::ActivateAbility(const FGameplayAbilitySpecHandle Handle, cons
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 }
 
-void UGAS_Primary::HitBoxOverlapTest()
+TArray<AActor*> UGAS_Primary::HitBoxOverlapTest()
 {
 	TArray<AActor*> ActorsToIgnore;
 	ActorsToIgnore.Add(GetAvatarActorFromActorInfo());
@@ -32,18 +34,42 @@ void UGAS_Primary::HitBoxOverlapTest()
 
 	GetWorld()->OverlapMultiByChannel(OverlapResults, HitboxLocation, FQuat::Identity, ECC_Visibility, Sphere, QueryParams, ResponseParams);
 
-	if (bDrawDebugs)
+	TArray<AActor*> ActorsHit;
+	for (const FOverlapResult& Result : OverlapResults)
 	{
-		DrawDebugSphere(GetWorld(), HitboxLocation, HitBoxRadius, 16, FColor::Red, false, 3.f);
+		if (!Result.GetActor()) continue;
 
-		for (FOverlapResult& Result : OverlapResults)
+		ActorsHit.AddUnique(Result.GetActor());
+	}
+
+
+	if (bDrawDebugs)
+		DrawHitBoxOverlapDebugs(OverlapResults, HitboxLocation);
+
+	return ActorsHit;
+}
+
+void UGAS_Primary::SendHitReactEventToActors(const TArray<AActor*>& Actors)
+{
+	for (AActor* Actor : Actors)
+	{
+		FGameplayEventData Payload;
+		Payload.Instigator = GetAvatarActorFromActorInfo();
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(Actor, GASTags::Events::Enemy::HitReact, Payload);
+	}
+}
+
+void UGAS_Primary::DrawHitBoxOverlapDebugs(const TArray<FOverlapResult>& OverlapResults, const FVector& HitboxLocation) const
+{
+	DrawDebugSphere(GetWorld(), HitboxLocation, HitBoxRadius, 16, FColor::Red, false, 3.f);
+
+	for (const FOverlapResult& Result : OverlapResults)
+	{
+		if (Result.GetActor())
 		{
-			if (Result.GetActor())
-			{
-				FVector DebugLocation = Result.GetActor()->GetActorLocation();
-				DebugLocation.Z += 100.f;
-				DrawDebugSphere(GetWorld(), DebugLocation, 30.f, 10, FColor::Green, false, 3.f);
-			}
+			FVector DebugLocation = Result.GetActor()->GetActorLocation();
+			DebugLocation.Z += 100.f;
+			DrawDebugSphere(GetWorld(), DebugLocation, 30.f, 10, FColor::Green, false, 3.f);
 		}
 	}
 }
