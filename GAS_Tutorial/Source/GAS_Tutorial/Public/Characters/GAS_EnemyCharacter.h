@@ -6,6 +6,9 @@
 #include "GAS_BaseCharacter.h"
 #include "GAS_EnemyCharacter.generated.h"
 
+class UAttributeSet;
+class UAbilitySystemComponent;
+
 UCLASS()
 class GAS_TUTORIAL_API AGAS_EnemyCharacter : public AGAS_BaseCharacter
 {
@@ -21,7 +24,10 @@ protected:
 	
 private:
 	
-	UPROPERTY(visibleDefaultsOnly)
+	UPROPERTY(VisibleDefaultsOnly)
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
+	
+	UPROPERTY()
+	TObjectPtr<UAttributeSet> AttributeSet;
 
 };

@@ -7,6 +7,7 @@
 #include "GameFramework/PlayerState.h"
 #include "GAS_PlayerState.generated.h"
 
+class UAttributeSet;
 class UAbilitySystemComponent;
 
 UCLASS(Abstract)
@@ -21,4 +22,7 @@ public:
 private:
 	UPROPERTY(VisibleAnywhere, Category = "GAS|Abilities")
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
+	
+	UPROPERTY()
+	TObjectPtr<UAttributeSet> AttributeSet;
 };
