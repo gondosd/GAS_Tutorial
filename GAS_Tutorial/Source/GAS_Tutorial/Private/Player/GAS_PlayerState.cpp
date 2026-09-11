@@ -20,3 +20,8 @@ UAbilitySystemComponent* AGAS_PlayerState::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
 }
+
+UAttributeSet* AGAS_PlayerState::GetAttributeSet() const
+{
+	return AttributeSet;
+}

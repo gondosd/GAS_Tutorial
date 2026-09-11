@@ -22,6 +22,11 @@ UAbilitySystemComponent* AGAS_EnemyCharacter::GetAbilitySystemComponent() const
 	return AbilitySystemComponent;
 }
 
+UAttributeSet* AGAS_EnemyCharacter::GetAttributeSet() const
+{
+	return AttributeSet;
+}
+
 void AGAS_EnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
@@ -29,6 +34,7 @@ void AGAS_EnemyCharacter::BeginPlay()
 	if (!GetAbilitySystemComponent()) return;
 	
 	GetAbilitySystemComponent()->InitAbilityActorInfo(this, this);
+	OnASCInitialized.Broadcast(GetAbilitySystemComponent(), GetAttributeSet());
 	
 	if (!HasAuthority()) return; //Only on server we give startup abilities
 

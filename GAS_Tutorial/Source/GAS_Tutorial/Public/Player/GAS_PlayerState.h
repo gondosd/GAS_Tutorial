@@ -18,6 +18,7 @@ class GAS_TUTORIAL_API AGAS_PlayerState : public APlayerState, public IAbilitySy
 public:
 	AGAS_PlayerState();
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	UAttributeSet* GetAttributeSet() const;
 
 private:
 	UPROPERTY(VisibleAnywhere, Category = "GAS|Abilities")

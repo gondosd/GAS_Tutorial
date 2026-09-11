@@ -7,8 +7,11 @@
 #include "GameFramework/Character.h"
 #include "GAS_BaseCharacter.generated.h"
 
+class UAttributeSet;
 class UGameplayEffect;
 class UGameplayAbility;
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FASCInitialized, UAbilitySystemComponent*, ASC, UAttributeSet*, AS);
 
 UCLASS(Abstract)
 class GAS_TUTORIAL_API AGAS_BaseCharacter : public ACharacter, public IAbilitySystemInterface
@@ -19,11 +22,16 @@ public:
 	AGAS_BaseCharacter();
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	virtual UAttributeSet* GetAttributeSet() const { return nullptr; }
 
 protected:
 	void GiveStartupAbilities();
 
 	void InitializeAttributes();
+
+public:
+	UPROPERTY(BlueprintAssignable)
+	FASCInitialized OnASCInitialized;
 	
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "GAS|Abilities")

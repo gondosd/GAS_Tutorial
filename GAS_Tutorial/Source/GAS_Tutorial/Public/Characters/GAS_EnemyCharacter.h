@@ -17,6 +17,7 @@ class GAS_TUTORIAL_API AGAS_EnemyCharacter : public AGAS_BaseCharacter
 public:
 	AGAS_EnemyCharacter();
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	virtual UAttributeSet* GetAttributeSet() const override;
 
 protected:
 
