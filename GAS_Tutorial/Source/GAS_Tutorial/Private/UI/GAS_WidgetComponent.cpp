@@ -6,7 +6,9 @@
 #include "AbilitySystemComponent.h"
 #include "AbilitySystem/GAS_AbilitySystemComponent.h"
 #include "AbilitySystem/GAS_AttributeSet.h"
+#include "Blueprint/WidgetTree.h"
 #include "Characters/GAS_BaseCharacter.h"
+#include "UI/GAS_AttributeWidget.h"
 
 
 void UGAS_WidgetComponent::BeginPlay()
@@ -20,7 +22,7 @@ void UGAS_WidgetComponent::BeginPlay()
 		GAS_Character->OnASCInitialized.AddDynamic(this, &ThisClass::OnASCInitialized);
 		return;
 	}
-	
+
 	InitializeAttributeDelegate();
 }
 
@@ -60,5 +62,37 @@ void UGAS_WidgetComponent::OnASCInitialized(UAbilitySystemComponent* ASC, UAttri
 
 void UGAS_WidgetComponent::BindToAttributeChanges()
 {
-	//TODO: Listen for changes to Gameplay Attributes and update our widgets accordingly
+	for (const TTuple<FGameplayAttribute, FGameplayAttribute>& Pair : AttributeMap)
+	{
+		BindWidgetToAttributeChanges(GetUserWidgetObject(), Pair); //for checking the owned widget object
+
+		//loop over all children on the owned widget, and do the same for them. 
+		GetUserWidgetObject()->WidgetTree->ForEachWidget([this, &Pair](UWidget* ChildWidget)
+		{
+			BindWidgetToAttributeChanges(ChildWidget, Pair);
+		});
+	}
+}
+
+void UGAS_WidgetComponent::BindWidgetToAttributeChanges(UWidget* WidgetObject, const TTuple<FGameplayAttribute, FGameplayAttribute>& Pair) const
+{
+	UGAS_AttributeWidget* AttributeWidget = Cast<UGAS_AttributeWidget>(WidgetObject);
+	if (!AttributeWidget) return; //We only care about GAS_AttributeWidgets
+	if (!AttributeWidget->MatchesAttribute(Pair)) return; //Only subscribe for matching attributes
+
+	AttributeWidget->OnAttributeChange(Pair, AttributeSet.Get()); //for initial values
+
+	
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Pair.Key).AddLambda(
+		[this, AttributeWidget, &Pair](const FOnAttributeChangeData& AttributeChangeData)
+		{
+			AttributeWidget->OnAttributeChange(Pair, AttributeSet.Get()); //For changes during the game.
+		});
+	
+	//Göndi comment: Its not in the tutorial but my issue is, that this is not following if the max value is being changed. maybe if i add this:
+	/*AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Pair.Value).AddLambda(
+		[this, AttributeWidget, &Pair](const FOnAttributeChangeData& AttributeChangeData)
+		{
+			AttributeWidget->OnAttributeChange(Pair, AttributeSet.Get()); //For changes during the game.
+		});*/
 }

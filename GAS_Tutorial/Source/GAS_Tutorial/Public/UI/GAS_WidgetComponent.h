@@ -20,6 +20,9 @@ class GAS_TUTORIAL_API UGAS_WidgetComponent : public UWidgetComponent
 protected:
 	
 	virtual void BeginPlay() override;
+	
+	UPROPERTY(EditAnywhere)
+	TMap<FGameplayAttribute, FGameplayAttribute> AttributeMap;
 
 private:
 	TWeakObjectPtr<AGAS_BaseCharacter> GAS_Character;
@@ -30,10 +33,12 @@ private:
 	bool IsASCInitialized() const;
 
 	void InitializeAttributeDelegate();
+	void BindWidgetToAttributeChanges(UWidget* WidgetObject, const TTuple<FGameplayAttribute, FGameplayAttribute>& Pair) const;
 	
 	UFUNCTION()
 	void OnASCInitialized(UAbilitySystemComponent* ASC, UAttributeSet* AS);
 	
+
 	UFUNCTION()
 	void BindToAttributeChanges();
 	
