@@ -16,7 +16,12 @@ void UGAS_WidgetComponent::BeginPlay()
 	InitAbilitySystemData();
 
 	if (!IsASCInitialized())
+	{
 		GAS_Character->OnASCInitialized.AddDynamic(this, &ThisClass::OnASCInitialized);
+		return;
+	}
+	
+	InitializeAttributeDelegate();
 }
 
 void UGAS_WidgetComponent::InitAbilitySystemData()
@@ -31,11 +36,29 @@ bool UGAS_WidgetComponent::IsASCInitialized() const
 	return AbilitySystemComponent.IsValid() && AttributeSet.IsValid();
 }
 
+void UGAS_WidgetComponent::InitializeAttributeDelegate()
+{
+	if (!AttributeSet->bAttributesInitialized)
+	{
+		AttributeSet->OnAttributesInitialized.AddDynamic(this, &ThisClass::BindToAttributeChanges);
+	}
+	else
+	{
+		BindToAttributeChanges();
+	}
+}
+
 void UGAS_WidgetComponent::OnASCInitialized(UAbilitySystemComponent* ASC, UAttributeSet* AS)
 {
 	AbilitySystemComponent = Cast<UGAS_AbilitySystemComponent>(ASC);
 	AttributeSet = Cast<UGAS_AttributeSet>(AS);
-	
-	//TODO: check if the Attribute set has been initialized with the first GE 
-	//If not, bind to some delegate that will be broadcast when it is initialized
+
+	if (!IsASCInitialized()) return;
+
+	InitializeAttributeDelegate();
+}
+
+void UGAS_WidgetComponent::BindToAttributeChanges()
+{
+	//TODO: Listen for changes to Gameplay Attributes and update our widgets accordingly
 }

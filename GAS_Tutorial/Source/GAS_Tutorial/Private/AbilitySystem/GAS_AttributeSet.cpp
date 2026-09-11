@@ -3,16 +3,38 @@
 
 #include "AbilitySystem/GAS_AttributeSet.h"
 
+#include "GameplayEffectExtension.h"
 #include "Net/UnrealNetwork.h"
 
 void UGAS_AttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	
+
+	DOREPLIFETIME(ThisClass, bAttributesInitialized)
+
 	DOREPLIFETIME_CONDITION_NOTIFY(ThisClass, Health, COND_None, REPNOTIFY_Always)
 	DOREPLIFETIME_CONDITION_NOTIFY(ThisClass, MaxHealth, COND_None, REPNOTIFY_Always)
 	DOREPLIFETIME_CONDITION_NOTIFY(ThisClass, Mana, COND_None, REPNOTIFY_Always)
 	DOREPLIFETIME_CONDITION_NOTIFY(ThisClass, MaxMana, COND_None, REPNOTIFY_Always)
+}
+
+void UGAS_AttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
+{
+	Super::PostGameplayEffectExecute(Data);
+
+	if (!bAttributesInitialized)
+	{
+		bAttributesInitialized = true;
+		OnAttributesInitialized.Broadcast();
+	}
+}
+
+void UGAS_AttributeSet::OnRep_AttributesInitialized()
+{
+	if (bAttributesInitialized)
+	{
+		OnAttributesInitialized.Broadcast();
+	}
 }
 
 void UGAS_AttributeSet::OnRep_Health(const FGameplayAttributeData& OldValue)
