@@ -50,7 +50,10 @@ UAbilitySystemComponent* AGAS_PlayerCharacter::GetAbilitySystemComponent() const
 
 UAttributeSet* AGAS_PlayerCharacter::GetAttributeSet() const
 {
-	return Cast<AGAS_PlayerState>(GetPlayerState())->GetAttributeSet();
+	if (AGAS_PlayerState* AttributeSet = Cast<AGAS_PlayerState>(GetPlayerState()))
+		return AttributeSet->GetAttributeSet();
+	
+	return nullptr;
 }
 
 void AGAS_PlayerCharacter::PossessedBy(AController* NewController)

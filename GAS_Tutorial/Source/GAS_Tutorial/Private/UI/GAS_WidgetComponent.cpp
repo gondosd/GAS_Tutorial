@@ -90,9 +90,9 @@ void UGAS_WidgetComponent::BindWidgetToAttributeChanges(UWidget* WidgetObject, c
 		});
 	
 	//Göndi comment: Its not in the tutorial but my issue is, that this is not following if the max value is being changed. maybe if i add this:
-	/*AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Pair.Value).AddLambda(
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Pair.Value).AddLambda(
 		[this, AttributeWidget, &Pair](const FOnAttributeChangeData& AttributeChangeData)
 		{
 			AttributeWidget->OnAttributeChange(Pair, AttributeSet.Get()); //For changes during the game.
-		});*/
+		});
 }
