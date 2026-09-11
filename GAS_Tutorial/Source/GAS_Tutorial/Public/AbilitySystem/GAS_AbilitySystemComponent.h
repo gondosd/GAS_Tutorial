@@ -12,10 +12,16 @@ class GAS_TUTORIAL_API UGAS_AbilitySystemComponent : public UAbilitySystemCompon
 {
 	GENERATED_BODY()
 
-protected:
+public:
 	virtual void OnGiveAbility(FGameplayAbilitySpec& AbilitySpec) override;
 	virtual void OnRep_ActivateAbilities() override;
 
+	UFUNCTION(BlueprintCallable, Category = "GAS|Abilities")
+	void SetAbilityLevel(TSubclassOf<UGameplayAbility> AbilityClass, int32 Level);
+	
+	UFUNCTION(BlueprintCallable, Category = "GAS|Abilities")
+	void AddToAbilityLevel(TSubclassOf<UGameplayAbility> AbilityClass, int32 LevelToAdd = 1);
+	
 private:
 	void HandleAutoActivatedAbility(const FGameplayAbilitySpec& AbilitySpec);
 };
