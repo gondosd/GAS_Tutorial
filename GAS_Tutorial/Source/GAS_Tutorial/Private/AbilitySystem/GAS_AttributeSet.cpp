@@ -3,7 +3,9 @@
 
 #include "AbilitySystem/GAS_AttributeSet.h"
 
+#include "AbilitySystemBlueprintLibrary.h"
 #include "GameplayEffectExtension.h"
+#include "GameplayTags/GAS_Tags.h"
 #include "Net/UnrealNetwork.h"
 
 void UGAS_AttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -21,6 +23,16 @@ void UGAS_AttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 void UGAS_AttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
 	Super::PostGameplayEffectExecute(Data);
+	
+	if (Data.EvaluatedData.Attribute == GetHealthAttribute() && GetHealth() <= 0.f)
+	{
+		AActor* KillInstigator = Data.EffectSpec.GetEffectContext().GetInstigator();
+		UE_LOG(LogTemp, Warning, TEXT("KillScored instigator: %s"), *GetNameSafe(KillInstigator));
+		
+		FGameplayEventData Payload;
+		Payload.Instigator = Data.Target.GetAvatarActor();
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(Data.EffectSpec.GetEffectContext().GetInstigator(), GASTags::Events::KillScored, Payload);
+	}	
 
 	if (!bAttributesInitialized)
 	{
