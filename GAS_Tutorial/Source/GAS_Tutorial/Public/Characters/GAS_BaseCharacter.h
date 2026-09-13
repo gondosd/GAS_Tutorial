@@ -33,9 +33,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "GAS|Death")
 	virtual void HandleRespawn();
 	
+	UFUNCTION(BlueprintCallable, Category = "GAS|Attributes")
+	void ResetAttributes();
+	
 protected:
 	void GiveStartupAbilities();
-	void InitializeAttributes();
+	void InitializeAttributes(TSubclassOf<UGameplayEffect> EffectsToInitializeFrom);
 	
 	void OnHealthChanged(const FOnAttributeChangeData& AttributeChangeData);
 	virtual void HandleDeath();
@@ -43,14 +46,18 @@ protected:
 public:
 	UPROPERTY(BlueprintAssignable)
 	FASCInitialized OnASCInitialized;
+	
+protected:
+	UPROPERTY(EditDefaultsOnly, Category = "GAS|Effects")
+	TSubclassOf<UGameplayEffect> InitializeAttributeEffect;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "GAS|Effects")
+	TSubclassOf<UGameplayEffect> ResetAttributeEffect;
 
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "GAS|Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> Abilities;
-
-	UPROPERTY(EditDefaultsOnly, Category = "GAS|Effects")
-	TSubclassOf<UGameplayEffect> InitializeAttributeEffect;
-
+	
 	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = true), Replicated)
 	bool bAlive = true;
 };

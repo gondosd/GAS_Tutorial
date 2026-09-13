@@ -39,7 +39,7 @@ void AGAS_EnemyCharacter::BeginPlay()
 	if (!HasAuthority()) return; //Only on server we give startup abilities
 
 	GiveStartupAbilities();
-	InitializeAttributes();
+	InitializeAttributes(InitializeAttributeEffect);
 	
 	UGAS_AttributeSet* GAS_AttributeSet = Cast<UGAS_AttributeSet>(GetAttributeSet());
 	if (!GAS_AttributeSet) return;

@@ -37,12 +37,12 @@ void AGAS_BaseCharacter::GiveStartupAbilities()
 	}
 }
 
-void AGAS_BaseCharacter::InitializeAttributes()
+void AGAS_BaseCharacter::InitializeAttributes(TSubclassOf<UGameplayEffect> EffectsToInitializeFrom)
 {
-	checkf(InitializeAttributeEffect, TEXT("InitializeAttributesEffect not set"));
+	checkf(EffectsToInitializeFrom, TEXT("EffectsToInitializeFrom not set"));
 
 	FGameplayEffectContextHandle ContextHandle = GetAbilitySystemComponent()->MakeEffectContext();
-	FGameplayEffectSpecHandle SpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(InitializeAttributeEffect, 1.f, ContextHandle);
+	FGameplayEffectSpecHandle SpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(EffectsToInitializeFrom, 1.f, ContextHandle);
 	
 	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
 }
@@ -59,6 +59,14 @@ void AGAS_BaseCharacter::HandleDeath()
 	
 	if (GEngine)
 		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red,  FString ::Printf(TEXT("%s has died!"), *GetName()));
+}
+
+void AGAS_BaseCharacter::ResetAttributes()
+{
+	if (!HasAuthority()) return;
+	
+	InitializeAttributes(ResetAttributeEffect);
+	
 }
 
 void AGAS_BaseCharacter::HandleRespawn()

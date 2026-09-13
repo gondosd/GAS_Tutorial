@@ -67,7 +67,7 @@ void AGAS_PlayerCharacter::PossessedBy(AController* NewController)
 	GetAbilitySystemComponent()->InitAbilityActorInfo(GetPlayerState(), this);
 	OnASCInitialized.Broadcast(GetAbilitySystemComponent(), GetAttributeSet());
 	GiveStartupAbilities();
-	InitializeAttributes();
+	InitializeAttributes(InitializeAttributeEffect);
 	
 	UGAS_AttributeSet* GAS_AttributeSet = Cast<UGAS_AttributeSet>(GetAttributeSet());
 	if (!GAS_AttributeSet) return;
