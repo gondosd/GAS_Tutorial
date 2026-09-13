@@ -20,15 +20,22 @@ public:
 	virtual UAttributeSet* GetAttributeSet() const override;
 
 protected:
-
 	virtual void BeginPlay() override;
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category= "GAS|AI")
+	float AcceptanceRadius{500.f};
 	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category= "GAS|AI")
+	float MinAttackDelay{.1f};
+	
+UPROPERTY(EditAnywhere, BlueprintReadOnly, Category= "GAS|AI")
+	float MaxAttackDelay{.5f};
+
 private:
-	
 	UPROPERTY(VisibleDefaultsOnly)
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
-	
+
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> AttributeSet;
-
 };
