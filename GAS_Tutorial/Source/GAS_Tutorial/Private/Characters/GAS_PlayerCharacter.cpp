@@ -39,6 +39,8 @@ AGAS_PlayerCharacter::AGAS_PlayerCharacter()
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>("CameraComponent");
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
+	
+	Tags.Add(GASActorTags::Player);
 }
 
 UAbilitySystemComponent* AGAS_PlayerCharacter::GetAbilitySystemComponent() const

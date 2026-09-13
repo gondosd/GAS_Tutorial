@@ -6,6 +6,11 @@
 #include "AbilitySystemComponent.h"
 #include "Net/UnrealNetwork.h"
 
+namespace GASActorTags
+{
+	const FName Player = FName("Player");
+}
+
 AGAS_BaseCharacter::AGAS_BaseCharacter()
 {
 	PrimaryActorTick.bCanEverTick = false;

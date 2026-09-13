@@ -7,6 +7,11 @@
 #include "GameFramework/Character.h"
 #include "GAS_BaseCharacter.generated.h"
 
+namespace GASActorTags
+{
+	extern GAS_TUTORIAL_API const FName Player;
+}
+
 struct FOnAttributeChangeData;
 class UAttributeSet;
 class UGameplayEffect;

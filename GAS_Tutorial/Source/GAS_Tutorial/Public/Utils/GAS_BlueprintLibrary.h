@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Characters/GAS_BaseCharacter.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "GAS_BlueprintLibrary.generated.h"
 
@@ -15,6 +16,19 @@ enum class EHitDirection : uint8
 	Back,
  };
 
+USTRUCT(BlueprintType)
+struct FClosesActorsWithTagResult
+{
+	GENERATED_BODY();
+	
+	UPROPERTY(BlueprintReadWrite)
+	TWeakObjectPtr<AActor> Actor;
+	
+	UPROPERTY(BlueprintReadWrite)
+	float Distance{0.f};
+};
+
+
 UCLASS()
 class GAS_TUTORIAL_API UGAS_BlueprintLibrary : public UBlueprintFunctionLibrary
 {
@@ -25,4 +39,7 @@ class GAS_TUTORIAL_API UGAS_BlueprintLibrary : public UBlueprintFunctionLibrary
 	
 	UFUNCTION(BlueprintPure)
 	static FName GetHitDirectionName(const EHitDirection& HitDirection);
+	
+	UFUNCTION(BlueprintCallable)
+	static FClosesActorsWithTagResult FindClosestActorWithTag(const UObject* WorldContextObject, const FVector& Origin, const FName& Tag = FName("Player"));
 };
