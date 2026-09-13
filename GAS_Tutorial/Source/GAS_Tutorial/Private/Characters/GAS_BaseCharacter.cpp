@@ -39,6 +39,7 @@ void AGAS_BaseCharacter::GiveStartupAbilities()
 
 void AGAS_BaseCharacter::InitializeAttributes(TSubclassOf<UGameplayEffect> EffectsToInitializeFrom)
 {
+	if (!GetAbilitySystemComponent()) return;
 	checkf(EffectsToInitializeFrom, TEXT("EffectsToInitializeFrom not set"));
 
 	FGameplayEffectContextHandle ContextHandle = GetAbilitySystemComponent()->MakeEffectContext();

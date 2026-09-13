@@ -18,12 +18,13 @@ void UGAS_AbilitySystemComponent::OnRep_ActivateAbilities()
 {
 	Super::OnRep_ActivateAbilities();
 
-	FScopedAbilityListLock ActiveScopeLock(*this); // it prevents us to access an ability when it has been removed
-	for (const FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
-	{
-		//GiveAbilityAndActivateOnce(AbilitySpec); <- this would do the same, but once the ability is done, it will be removed
-		HandleAutoActivatedAbility(AbilitySpec);
-	}
+	//Göndi Fix: this makes no sense here, spamming the clients, which cant activate the abilities because they are already active on the server (?)
+	// FScopedAbilityListLock ActiveScopeLock(*this); // it prevents us to access an ability when it has been removed
+	// for (const FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
+	// {
+	// 	//GiveAbilityAndActivateOnce(AbilitySpec); <- this would do the same, but once the ability is done, it will be removed
+	// 	HandleAutoActivatedAbility(AbilitySpec);
+	// }
 }
 
 void UGAS_AbilitySystemComponent::SetAbilityLevel(TSubclassOf<UGameplayAbility> AbilityClass, int32 Level)
