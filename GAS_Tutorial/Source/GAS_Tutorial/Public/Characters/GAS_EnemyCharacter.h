@@ -21,6 +21,7 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+	virtual void HandleDeath() override;
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category= "GAS|AI")

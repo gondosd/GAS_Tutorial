@@ -62,9 +62,6 @@ void AGAS_BaseCharacter::OnHealthChanged(const FOnAttributeChangeData& Attribute
 void AGAS_BaseCharacter::HandleDeath()
 {
 	bAlive = false;
-	
-	if (GEngine)
-		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red,  FString ::Printf(TEXT("%s has died!"), *GetName()));
 }
 
 void AGAS_BaseCharacter::ResetAttributes()

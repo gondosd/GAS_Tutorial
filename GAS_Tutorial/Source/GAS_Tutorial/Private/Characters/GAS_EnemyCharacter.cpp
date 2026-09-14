@@ -4,6 +4,7 @@
 #include "Characters/GAS_EnemyCharacter.h"
 #include "AbilitySystem/GAS_AbilitySystemComponent.h"
 #include "AbilitySystem/GAS_AttributeSet.h"
+#include "Runtime/AIModule/Classes/AIController.h"
 
 
 AGAS_EnemyCharacter::AGAS_EnemyCharacter()
@@ -45,4 +46,13 @@ void AGAS_EnemyCharacter::BeginPlay()
 	if (!GAS_AttributeSet) return;
 	
 	GetAbilitySystemComponent()->GetGameplayAttributeValueChangeDelegate(GAS_AttributeSet->GetHealthAttribute()).AddUObject(this, &ThisClass::OnHealthChanged);
+}
+
+void AGAS_EnemyCharacter::HandleDeath()
+{
+	Super::HandleDeath();
+	AAIController* AIController = GetController<AAIController>();
+	
+	if (AIController)
+		AIController->StopMovement();
 }
