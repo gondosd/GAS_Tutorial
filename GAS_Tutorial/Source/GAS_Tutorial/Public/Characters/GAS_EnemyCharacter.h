@@ -18,6 +18,9 @@ public:
 	AGAS_EnemyCharacter();
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	virtual UAttributeSet* GetAttributeSet() const override;
+	
+	UFUNCTION(BlueprintImplementableEvent)
+	float GetTimelineLength();
 
 protected:
 	virtual void BeginPlay() override;

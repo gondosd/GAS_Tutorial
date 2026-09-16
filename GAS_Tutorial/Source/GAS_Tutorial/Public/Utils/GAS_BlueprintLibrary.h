@@ -33,6 +33,7 @@ UCLASS()
 class GAS_TUTORIAL_API UGAS_BlueprintLibrary : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
+public:
 	
 	UFUNCTION(BlueprintPure)
 	static EHitDirection GetHitDirection(const FVector& TargetForward, const FVector& ToInstigator);

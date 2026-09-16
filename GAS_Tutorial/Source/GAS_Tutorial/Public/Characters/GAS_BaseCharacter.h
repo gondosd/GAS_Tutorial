@@ -41,6 +41,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "GAS|Attributes")
 	void ResetAttributes();
 	
+	UFUNCTION(BlueprintImplementableEvent)
+	void RotateToTarget_BP(AActor* RotateTarget);
+	
 protected:
 	void GiveStartupAbilities();
 	void InitializeAttributes(TSubclassOf<UGameplayEffect> EffectsToInitializeFrom);
