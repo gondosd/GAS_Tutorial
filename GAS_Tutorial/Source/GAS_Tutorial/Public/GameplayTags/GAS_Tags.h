@@ -5,6 +5,11 @@
 
 namespace GASTags
 {
+	namespace SetByCaller
+	{
+		UE_DECLARE_GAMEPLAY_TAG_EXTERN(Projectile);
+	}
+	
 	namespace GASAbilities
 	{
 		UE_DECLARE_GAMEPLAY_TAG_EXTERN(ActivateOnGiven);

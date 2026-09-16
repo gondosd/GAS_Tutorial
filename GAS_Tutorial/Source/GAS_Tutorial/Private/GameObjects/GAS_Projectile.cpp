@@ -3,9 +3,11 @@
 
 #include "GameObjects/GAS_Projectile.h"
 
+#include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
 #include "Characters/GAS_PlayerCharacter.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "GameplayTags/GAS_Tags.h"
 
 AGAS_Projectile::AGAS_Projectile()
 {
@@ -25,13 +27,14 @@ void AGAS_Projectile::NotifyActorBeginOverlap(AActor* OtherActor)
 
 	UAbilitySystemComponent* AbilitySystemComponent = PlayerCharacter->GetAbilitySystemComponent();
 	if (!AbilitySystemComponent || !HasAuthority()) return;
-	
+
 	const FGameplayEffectContextHandle ContextHandle = AbilitySystemComponent->MakeEffectContext();
 	const FGameplayEffectSpecHandle SpecHandle = AbilitySystemComponent->MakeOutgoingSpec(DamageEffect, 1.f, ContextHandle);
-	//TODO: use the damage variable for the amount of damage cause.
-	
+
+	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GASTags::SetByCaller::Projectile, Damage * -1.f);
+
 	AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
-	
+
 	SpawnImpactEffects_BP();
 	Destroy();
 }

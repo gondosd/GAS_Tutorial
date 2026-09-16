@@ -2,6 +2,11 @@
 
 namespace GASTags
 {
+	namespace SetByCaller
+	{
+		UE_DEFINE_GAMEPLAY_TAG_COMMENT(Projectile, "GASTags.SetByCaller.Projectile", "Tag for Set by Caller Magnitude for projectiles")
+	}
+
 	namespace GASAbilities
 	{
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(ActivateOnGiven, "GASTags.GASAbilities.ActivateOnGiven", "Tag for Abilities that should activate itself when its given")
@@ -9,7 +14,7 @@ namespace GASTags
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(Primary, "GASTags.GASAbilities.Primary", "Tag for the Primary Ability")
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(Secondary, "GASTags.GASAbilities.Secondary", "Tag for the Secondary Ability")
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(Tertiary, "GASTags.GASAbilities.Tertiary", "Tag for the Tertiary Ability")
-		
+
 		namespace Enemy
 		{
 			UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attack, "GASTags.GASAbilities.Enemy.Attack", "Enemy Attack Tag")
