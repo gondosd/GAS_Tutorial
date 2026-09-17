@@ -29,6 +29,7 @@ namespace GASTags
 		{
 			UE_DEFINE_GAMEPLAY_TAG_COMMENT(HitReact, "GASTags.Events.Enemy.HitReact", "Tag for the Enemy HitReact Event")
 			UE_DEFINE_GAMEPLAY_TAG_COMMENT(EndAttack, "GASTags.Events.Enemy.EndAttack", "Tag for the Enemy Ending an attack")
+			UE_DEFINE_GAMEPLAY_TAG_COMMENT(MeleeTraceHit, "GASTags.Events.Enemy.MeleeTraceHit", "Tag for the Enemy Melee Trace Hit")
 		}
 	}
 }
