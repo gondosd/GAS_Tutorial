@@ -25,6 +25,12 @@ namespace GASTags
 	{
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(KillScored, "GASTags.Events.KillScored", "Tag for the KillScored Event")
 
+		namespace Player
+		{
+			UE_DEFINE_GAMEPLAY_TAG_COMMENT(HitReact, "GASTags.Events.Player.HitReact", "Tag for the Player HitReact Event")
+			UE_DEFINE_GAMEPLAY_TAG_COMMENT(Death, "GASTags.Events.Player.Death", "Tag for the Player Death Event")
+		}
+		
 		namespace Enemy
 		{
 			UE_DEFINE_GAMEPLAY_TAG_COMMENT(HitReact, "GASTags.Events.Enemy.HitReact", "Tag for the Enemy HitReact Event")

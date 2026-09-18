@@ -8,6 +8,7 @@
 #include "Characters/GAS_PlayerCharacter.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "GameplayTags/GAS_Tags.h"
+#include "Utils/GAS_BlueprintLibrary.h"
 
 AGAS_Projectile::AGAS_Projectile()
 {
@@ -28,12 +29,10 @@ void AGAS_Projectile::NotifyActorBeginOverlap(AActor* OtherActor)
 	UAbilitySystemComponent* AbilitySystemComponent = PlayerCharacter->GetAbilitySystemComponent();
 	if (!AbilitySystemComponent || !HasAuthority()) return;
 
-	const FGameplayEffectContextHandle ContextHandle = AbilitySystemComponent->MakeEffectContext();
-	const FGameplayEffectSpecHandle SpecHandle = AbilitySystemComponent->MakeOutgoingSpec(DamageEffect, 1.f, ContextHandle);
-
-	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GASTags::SetByCaller::Projectile, Damage * -1.f);
-
-	AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
+	FGameplayEventData Payload;
+	Payload.Instigator = GetOwner();
+	Payload.Target = PlayerCharacter;
+	UGAS_BlueprintLibrary::SendDamageEventToPlayer(PlayerCharacter, DamageEffect, Payload, GASTags::SetByCaller::Projectile, Damage);
 
 	SpawnImpactEffects_BP();
 	Destroy();
