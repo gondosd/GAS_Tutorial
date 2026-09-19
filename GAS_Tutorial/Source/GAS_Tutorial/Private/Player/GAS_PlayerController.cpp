@@ -7,6 +7,7 @@
 #include "AbilitySystemComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Characters/GAS_BaseCharacter.h"
 #include "GameFramework/Character.h"
 #include "GameplayTags/GAS_Tags.h"
 
@@ -40,6 +41,7 @@ void AGAS_PlayerController::SetupInputComponent()
 void AGAS_PlayerController::Jump()
 {
 	if (!IsValid(GetCharacter())) return;
+	if (!IsAlive()) return;
 	
 	GetCharacter()->Jump();
 }
@@ -47,6 +49,7 @@ void AGAS_PlayerController::Jump()
 void AGAS_PlayerController::StopJumping()
 {
 	if (!IsValid(GetCharacter())) return;
+	if (!IsAlive()) return;
 	
 	GetCharacter()->StopJumping();
 }
@@ -54,6 +57,7 @@ void AGAS_PlayerController::StopJumping()
 void AGAS_PlayerController::Move(const FInputActionValue& Value)
 {
 	if (!IsValid(GetPawn())) return;
+	if (!IsAlive()) return;
 	
 	const FVector& MovementVector = Value.Get<FVector>();
 	
@@ -70,6 +74,7 @@ void AGAS_PlayerController::Move(const FInputActionValue& Value)
 void AGAS_PlayerController::Look(const FInputActionValue& Value)
 {
 	if (!IsValid(GetPawn())) return;
+	if (!IsAlive()) return;
 	
 	const FVector& LookAxisVector = Value.Get<FVector>();
 	
@@ -94,8 +99,17 @@ void AGAS_PlayerController::Tertiary()
 
 void AGAS_PlayerController::ActivateAbility(const FGameplayTag& AbilityTag) const
 {
+	if (!IsAlive()) return;
 	UAbilitySystemComponent* ASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetPawn());
 	if (!ASC) return;
 	
 	ASC->TryActivateAbilitiesByTag(AbilityTag.GetSingleTagContainer());
+}
+
+bool AGAS_PlayerController::IsAlive() const
+{
+	 const AGAS_BaseCharacter* BaseCharacter = Cast<AGAS_BaseCharacter>(GetPawn());
+	if (!BaseCharacter) return false;
+	
+	return BaseCharacter->IsAlive();
 }
