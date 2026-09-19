@@ -17,16 +17,17 @@ enum class EHitDirection : uint8
 	Right,
 	Forward,
 	Back,
- };
+};
 
 USTRUCT(BlueprintType)
 struct FClosesActorsWithTagResult
 {
-	GENERATED_BODY();
-	
+	GENERATED_BODY()
+	;
+
 	UPROPERTY(BlueprintReadWrite)
 	TWeakObjectPtr<AActor> Actor;
-	
+
 	UPROPERTY(BlueprintReadWrite)
 	float Distance{0.f};
 };
@@ -36,18 +37,18 @@ UCLASS()
 class GAS_TUTORIAL_API UGAS_BlueprintLibrary : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
+
 public:
-	
 	UFUNCTION(BlueprintPure)
 	static EHitDirection GetHitDirection(const FVector& TargetForward, const FVector& ToInstigator);
-	
+
 	UFUNCTION(BlueprintPure)
 	static FName GetHitDirectionName(const EHitDirection& HitDirection);
-	
+
 	UFUNCTION(BlueprintCallable)
 	static FClosesActorsWithTagResult FindClosestActorWithTag(const UObject* WorldContextObject, const FVector& Origin, const FName& Tag = FName("Player"));
 
 	UFUNCTION(BlueprintCallable)
-	static void SendDamageEventToPlayer(AActor* Target, const TSubclassOf<UGameplayEffect>& DamageEffect, const FGameplayEventData& Payload, const FGameplayTag& DataTag, float Damage);
-
+	static void SendDamageEventToPlayer(AActor* Target, const TSubclassOf<UGameplayEffect>& DamageEffect, UPARAM(ref) FGameplayEventData& Payload,
+	                                    const FGameplayTag& DataTag, float Damage, UObject* OptionalParticleSystem = nullptr);
 };

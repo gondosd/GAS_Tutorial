@@ -68,8 +68,8 @@ FClosesActorsWithTagResult UGAS_BlueprintLibrary::FindClosestActorWithTag(const 
 	return Result;
 }
 
-void UGAS_BlueprintLibrary::SendDamageEventToPlayer(AActor* Target, const TSubclassOf<UGameplayEffect>& DamageEffect, const FGameplayEventData& Payload,
-	const FGameplayTag& DataTag, float Damage)
+void UGAS_BlueprintLibrary::SendDamageEventToPlayer(AActor* Target, const TSubclassOf<UGameplayEffect>& DamageEffect, FGameplayEventData& Payload,
+                                                    const FGameplayTag& DataTag, float Damage, UObject* OptionalParticleSystem)
 {
 	AGAS_BaseCharacter* PlayerCharacter = Cast<AGAS_BaseCharacter>(Target);
 	if(!PlayerCharacter || !PlayerCharacter->IsAlive()) return;
@@ -81,6 +81,7 @@ void UGAS_BlueprintLibrary::SendDamageEventToPlayer(AActor* Target, const TSubcl
 	
 	const FGameplayTag EventTag = bLethal ? GASTags::Events::Player::Death : GASTags::Events::Player::HitReact;
 	
+	Payload.OptionalObject = OptionalParticleSystem;
 	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(PlayerCharacter, EventTag, Payload);
 	
 	UAbilitySystemComponent* TargetASC =  PlayerCharacter->GetAbilitySystemComponent();
