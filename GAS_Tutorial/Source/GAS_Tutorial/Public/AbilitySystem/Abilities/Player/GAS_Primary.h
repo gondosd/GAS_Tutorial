@@ -13,28 +13,20 @@ class GAS_TUTORIAL_API UGAS_Primary : public UGAS_GameplayAbility
 
 protected:
 	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
-		const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
-	
+	                             const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
+
 public:
-	
-	UFUNCTION(BlueprintCallable, Category = "GAS|Abilities")
-	TArray<AActor*> HitBoxOverlapTest();
-	
 	UFUNCTION(BlueprintCallable, Category = "GAS|Abilities")
 	void SendHitReactEventToActors(const TArray<AActor*>& Actors);
-	
+
 private:
-	void DrawHitBoxOverlapDebugs(const TArray<FOverlapResult>& OverlapResults, const FVector& HitboxLocation) const;
-	
-	UPROPERTY(EditDefaultsOnly, Category = "GAS|Abilities")
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "GAS|Abilities", meta = (AllowPrivateAccess = "true"))
 	float HitBoxRadius = 100.f;
-	
-	UPROPERTY(EditDefaultsOnly, Category = "GAS|Abilities")
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "GAS|Abilities", meta = (AllowPrivateAccess = "true"))
 	float HitBoxForwardOffset = 200.f;
-	
-	UPROPERTY(EditDefaultsOnly, Category = "GAS|Abilities")
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "GAS|Abilities", meta = (AllowPrivateAccess = "true"))
 	float HitBoxElevationOffset = 20.f;
-	
-	
-	
 };
