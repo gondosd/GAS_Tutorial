@@ -6,6 +6,7 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystem/GAS_AttributeSet.h"
 #include "Characters/GAS_BaseCharacter.h"
+#include "Characters/GAS_EnemyCharacter.h"
 #include "Engine/OverlapResult.h"
 #include "GameplayTags/GAS_Tags.h"
 #include "Kismet/GameplayStatics.h"
@@ -193,6 +194,9 @@ TArray<AActor*> UGAS_BlueprintLibrary::ApplyKnockback(AActor* AvatarActor, const
 			UWorld* World = GEngine->GetWorldFromContextObject(AvatarActor, EGetWorldErrorMode::LogAndReturnNull);
 			DrawDebugDirectionalArrow(World, HitCharacterLocation, HitCharacterLocation + KnockbackForce, 100.f, FColor::Green, false, 3.f);
 		}
+		
+		if (AGAS_EnemyCharacter* EnemyCharacter = Cast<AGAS_EnemyCharacter>(HitCharacter))
+			EnemyCharacter->StopMovementUntilLanded();
 
 		HitCharacter->LaunchCharacter(KnockbackForce, true, true);
 	}

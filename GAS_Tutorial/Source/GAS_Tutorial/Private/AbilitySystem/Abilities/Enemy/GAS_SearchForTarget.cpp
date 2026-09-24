@@ -19,7 +19,7 @@ UGAS_SearchForTarget::UGAS_SearchForTarget()
 }
 
 void UGAS_SearchForTarget::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
-                                       const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
+                                           const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
 {
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 
@@ -52,7 +52,8 @@ void UGAS_SearchForTarget::StartSearch()
 
 void UGAS_SearchForTarget::EndAttackEventReceived(FGameplayEventData Payload)
 {
-	StartSearch();
+	if (OwningEnemy.IsValid() && !OwningEnemy->bIsBeingLaunched)
+		StartSearch();
 }
 
 void UGAS_SearchForTarget::Search()
@@ -100,7 +101,7 @@ void UGAS_SearchForTarget::AttackTarget(TEnumAsByte<EPathFollowingResult::Type> 
 		return;
 	}
 	OwningEnemy->RotateToTarget_BP(TargetBaseCharacter.Get());
-	
+
 	AttackDelayTask = UAbilityTask_WaitDelay::WaitDelay(this, OwningEnemy->GetTimelineLength());
 	AttackDelayTask->OnFinish.AddDynamic(this, &ThisClass::Attack);
 	AttackDelayTask->Activate();
