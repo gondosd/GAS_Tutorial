@@ -5,12 +5,12 @@
 
 #include "AbilitySystem/GAS_AttributeSet.h"
 
-void UGAS_AttributeWidget::OnAttributeChange(const TTuple<FGameplayAttribute, FGameplayAttribute>& Pair, UGAS_AttributeSet* AttributeSet)
+void UGAS_AttributeWidget::OnAttributeChange(const TTuple<FGameplayAttribute, FGameplayAttribute>& Pair, UGAS_AttributeSet* AttributeSet, float OldValue)
 {
 	const float AttributeValue = Pair.Key.GetNumericValue(AttributeSet);
 	const float MaxAttributeValue = Pair.Value.GetNumericValue(AttributeSet);
 	
-	BP_OnAttributeChange(AttributeValue, MaxAttributeValue);
+	BP_OnAttributeChange(AttributeValue, MaxAttributeValue, OldValue);
 }
 
 bool UGAS_AttributeWidget::MatchesAttribute(const TTuple<FGameplayAttribute, FGameplayAttribute>& Pair) const

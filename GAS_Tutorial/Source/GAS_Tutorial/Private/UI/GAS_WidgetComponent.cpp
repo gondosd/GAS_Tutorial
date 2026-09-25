@@ -79,20 +79,21 @@ void UGAS_WidgetComponent::BindWidgetToAttributeChanges(UWidget* WidgetObject, c
 	UGAS_AttributeWidget* AttributeWidget = Cast<UGAS_AttributeWidget>(WidgetObject);
 	if (!AttributeWidget) return; //We only care about GAS_AttributeWidgets
 	if (!AttributeWidget->MatchesAttribute(Pair)) return; //Only subscribe for matching attributes
-
-	AttributeWidget->OnAttributeChange(Pair, AttributeSet.Get()); //for initial values
+	AttributeWidget->AvatarActor = GAS_Character;
+	
+	AttributeWidget->OnAttributeChange(Pair, AttributeSet.Get(), 0.f); //for initial values
 
 	
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Pair.Key).AddLambda(
 		[this, AttributeWidget, &Pair](const FOnAttributeChangeData& AttributeChangeData)
 		{
-			AttributeWidget->OnAttributeChange(Pair, AttributeSet.Get()); //For changes during the game.
+			AttributeWidget->OnAttributeChange(Pair, AttributeSet.Get(), AttributeChangeData.OldValue); //For changes during the game.
 		});
 	
 	//Göndi comment: Its not in the tutorial but my issue is, that this is not following if the max value is being changed. maybe if i add this:
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Pair.Value).AddLambda(
 		[this, AttributeWidget, &Pair](const FOnAttributeChangeData& AttributeChangeData)
 		{
-			AttributeWidget->OnAttributeChange(Pair, AttributeSet.Get()); //For changes during the game.
+			AttributeWidget->OnAttributeChange(Pair, AttributeSet.Get(), AttributeChangeData.OldValue); //For changes during the game.
 		});
 }
