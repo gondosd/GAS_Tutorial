@@ -32,7 +32,7 @@ void AGAS_Projectile::NotifyActorBeginOverlap(AActor* OtherActor)
 	FGameplayEventData Payload;
 	Payload.Instigator = GetOwner();
 	Payload.Target = PlayerCharacter;
-	UGAS_BlueprintLibrary::SendDamageEventToPlayer(PlayerCharacter, DamageEffect, Payload, GASTags::SetByCaller::Projectile, Damage);
+	UGAS_BlueprintLibrary::SendDamageEventToPlayer(PlayerCharacter, DamageEffect, Payload, GASTags::SetByCaller::Projectile, Damage, GASTags::None);
 
 	SpawnImpactEffects_BP();
 	Destroy();

@@ -71,17 +71,27 @@ FClosesActorsWithTagResult UGAS_BlueprintLibrary::FindClosestActorWithTag(const 
 }
 
 void UGAS_BlueprintLibrary::SendDamageEventToPlayer(AActor* Target, const TSubclassOf<UGameplayEffect>& DamageEffect, FGameplayEventData& Payload,
-                                                    const FGameplayTag& DataTag, float Damage, UObject* OptionalParticleSystem)
+                                                    const FGameplayTag& DataTag, float Damage, const FGameplayTag& EventTagOverride,
+                                                    UObject* OptionalParticleSystem)
 {
 	AGAS_BaseCharacter* PlayerCharacter = Cast<AGAS_BaseCharacter>(Target);
 	if (!PlayerCharacter || !PlayerCharacter->IsAlive()) return;
 
-	UGAS_AttributeSet* AttributeSet = Cast<UGAS_AttributeSet>(PlayerCharacter->GetAttributeSet());
-	if (!AttributeSet) return;
+	FGameplayTag EventTag;
+	if (!EventTagOverride.MatchesTagExact(GASTags::None))
+	{
+		EventTag = EventTagOverride;
+	}
+	else
+	{
+		UGAS_AttributeSet* AttributeSet = Cast<UGAS_AttributeSet>(PlayerCharacter->GetAttributeSet());
+		if (!AttributeSet) return;
 
-	const bool bLethal = (AttributeSet->GetHealth() - Damage) <= 0.0f;
+		const bool bLethal = (AttributeSet->GetHealth() - Damage) <= 0.0f;
 
-	const FGameplayTag EventTag = bLethal ? GASTags::Events::Player::Death : GASTags::Events::Player::HitReact;
+		EventTag = bLethal ? GASTags::Events::Player::Death : GASTags::Events::Player::HitReact;
+	}
+
 
 	Payload.OptionalObject = OptionalParticleSystem;
 	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(PlayerCharacter, EventTag, Payload);
@@ -94,6 +104,15 @@ void UGAS_BlueprintLibrary::SendDamageEventToPlayer(AActor* Target, const TSubcl
 	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, DataTag, -Damage);
 
 	TargetASC->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
+}
+
+void UGAS_BlueprintLibrary::SendDamageEventToPlayers(TArray<AActor*> Targets, const TSubclassOf<UGameplayEffect>& DamageEffect, FGameplayEventData& Payload,
+	const FGameplayTag& DataTag, float Damage, const FGameplayTag& EventTagOverride, UObject* OptionalParticleSystem)
+{
+	for (AActor* Target : Targets)
+	{
+		SendDamageEventToPlayer(Target, DamageEffect, Payload,DataTag,Damage,EventTagOverride, OptionalParticleSystem);
+	}
 }
 
 TArray<AActor*> UGAS_BlueprintLibrary::HitBoxOverlapTest(AActor* AvatarActor, float HitBoxRadius, float HitBoxForwardOffset, float HitBoxElevationOffset,
@@ -194,7 +213,7 @@ TArray<AActor*> UGAS_BlueprintLibrary::ApplyKnockback(AActor* AvatarActor, const
 			UWorld* World = GEngine->GetWorldFromContextObject(AvatarActor, EGetWorldErrorMode::LogAndReturnNull);
 			DrawDebugDirectionalArrow(World, HitCharacterLocation, HitCharacterLocation + KnockbackForce, 100.f, FColor::Green, false, 3.f);
 		}
-		
+
 		if (AGAS_EnemyCharacter* EnemyCharacter = Cast<AGAS_EnemyCharacter>(HitCharacter))
 			EnemyCharacter->StopMovementUntilLanded();
 

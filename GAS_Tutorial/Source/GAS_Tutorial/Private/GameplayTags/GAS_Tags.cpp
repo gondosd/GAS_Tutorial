@@ -2,6 +2,8 @@
 
 namespace GASTags
 {
+		UE_DEFINE_GAMEPLAY_TAG_COMMENT(None, "GASTags.None", "None")
+	
 	namespace SetByCaller
 	{
 		UE_DEFINE_GAMEPLAY_TAG_COMMENT(Projectile, "GASTags.SetByCaller.Projectile", "Tag for Set by Caller Magnitude for projectiles")
