@@ -24,6 +24,13 @@ void UGAS_AttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 {
 	Super::PostGameplayEffectExecute(Data);
 	
+	//Clamping... it feels weird to do it here, and like this. TODO: fix this somewhere else because its not working from the tutorial!
+	// if (Data.EvaluatedData.Attribute == GetHealthAttribute() && bAttributesInitialized)
+	// 	SetHealth(FMath::Clamp(GetHealth(), 0.f, GetMaxHealth()));
+	//
+	// if (Data.EvaluatedData.Attribute == GetManaAttribute() && bAttributesInitialized)
+	// 	SetMana(FMath::Clamp(GetMana(), 0.f, GetMaxMana()));
+	
 	if (Data.EvaluatedData.Attribute == GetHealthAttribute() && GetHealth() <= 0.f)
 	{
 		FGameplayEventData Payload;
