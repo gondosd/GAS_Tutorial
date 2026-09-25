@@ -59,7 +59,10 @@ void UGAS_SearchForTarget::EndAttackEventReceived(FGameplayEventData Payload)
 void UGAS_SearchForTarget::Search()
 {
 	const FVector SearchOrigin = GetAvatarActorFromActorInfo()->GetActorLocation();
-	FClosesActorsWithTagResult ClosestActorResult = UGAS_BlueprintLibrary::FindClosestActorWithTag(this, SearchOrigin, GASActorTags::Player);
+	if (!OwningEnemy.IsValid()) return;
+
+	FClosesActorsWithTagResult ClosestActorResult = UGAS_BlueprintLibrary::FindClosestActorWithTag(
+		GetAvatarActorFromActorInfo(), SearchOrigin, GASActorTags::Player, OwningEnemy->SearchRange);
 
 	TargetBaseCharacter = Cast<AGAS_BaseCharacter>(ClosestActorResult.Actor);
 

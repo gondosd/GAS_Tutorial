@@ -55,6 +55,9 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FASCInitialized OnASCInitialized;
 	
+	UPROPERTY(EditAnywhere, Category = "GAS|AI")
+	float SearchRange = 1000.f;
+	
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "GAS|Effects")
 	TSubclassOf<UGameplayEffect> InitializeAttributeEffect;
